@@ -90,10 +90,10 @@ def show_pokemon(request, pokemon_id):
     pokemon_details = {
         'pokemon_id': pokemon.id,
         'title_ru': pokemon.title,
+        'title_en': pokemon.title_en,
+        'title_jp': pokemon.title_jp,
         'img_url': request.build_absolute_uri(pokemon.image.url),
         'description': pokemon.description,
-        'lat': pokemon_entity.lat,
-        'lon': pokemon_entity.lon,
     }
 
     return render(request, 'pokemon.html', context={
