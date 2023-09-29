@@ -104,8 +104,24 @@ def show_pokemon(request, pokemon_id):
             'img_url': request.build_absolute_uri(pokemon.previous_evolution.image.url),
         }
         pokemon_details['previous_evolution'] = evolution_data
+    
+    next_evolutions = Pokemon.objects.filter(previous_evolution=pokemon)
+    
+    if next_evolutions:
+        # Choose one of the next evolutions (for simplicity, choose the first one)
+        next_evolution = next_evolutions.first()
+        evolution_data = {
+            'title_ru': next_evolution.title_ru,
+            'pokemon_id': next_evolution.id,
+            'img_url': request.build_absolute_uri(next_evolution.image.url),
+        }
+        pokemon_details['next_evolution'] = evolution_data
 
     return render(request, 'pokemon.html', context={
         'map': folium_map._repr_html_(),
         'pokemon': pokemon_details,
     })
+
+
+
+
