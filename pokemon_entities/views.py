@@ -35,10 +35,7 @@ def show_all_pokemons(request):
     
     for pokemon_entity in PokemonEntity.objects.filter(appeared_at__lte=current_time, disappeared_at__gte=current_time):
         
-        if pokemon_entity.pokemon.image:
-            image_url = request.build_absolute_uri(pokemon_entity.pokemon.image.url)
-        else:
-            image_url = 'path/to/default/image.png'
+        image_url = get_pokemon_entity_image_url(pokemon_entity, request)
 
         add_pokemon(
             folium_map, pokemon_entity.lat, 
@@ -75,10 +72,7 @@ def show_pokemon(request, pokemon_id):
     pokemon_entities = PokemonEntity.objects.filter(pokemon=pokemon)
     
     for pokemon_entity in pokemon_entities:
-        if pokemon_entity.pokemon and pokemon_entity.pokemon.image:
-            image_url = request.build_absolute_uri(pokemon_entity.pokemon.image.url)
-        else:
-            image_url = 'path/to/default/image.png'
+        image_url = get_pokemon_entity_image_url(pokemon_entity, request)
 
         add_pokemon(
             folium_map, pokemon_entity.lat,
@@ -120,5 +114,11 @@ def show_pokemon(request, pokemon_id):
     })
 
 
+def get_pokemon_entity_image_url(pokemon_entity, request):
+    if pokemon_entity.pokemon.image:
+        image_url = request.build_absolute_uri(pokemon_entity.pokemon.image.url)
+    else:
+        image_url = 'path/to/default/image.png'
+    return image_url
 
 
