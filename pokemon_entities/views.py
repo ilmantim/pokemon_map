@@ -72,7 +72,6 @@ def show_pokemon(request, pokemon_id):
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     
-    # Filter PokemonEntity instances related to the specific Pokemon
     pokemon_entities = PokemonEntity.objects.filter(pokemon=pokemon)
     
     for pokemon_entity in pokemon_entities:
@@ -86,7 +85,6 @@ def show_pokemon(request, pokemon_id):
             pokemon_entity.lon, image_url
         )
         
-    # Create a dictionary with Pokemon details
     pokemon_details = {
         'pokemon_id': pokemon.id,
         'title_ru': pokemon.title_ru,
@@ -108,7 +106,6 @@ def show_pokemon(request, pokemon_id):
     next_evolutions = Pokemon.objects.filter(previous_evolution=pokemon)
     
     if next_evolutions:
-        # Choose one of the next evolutions (for simplicity, choose the first one)
         next_evolution = next_evolutions.first()
         evolution_data = {
             'title_ru': next_evolution.title_ru,
