@@ -29,7 +29,7 @@ def add_pokemon(folium_map, lat, lon, image_url=DEFAULT_IMAGE_URL):
 
 
 def show_all_pokemons(request):
-    current_time = timezone.localtime(timezone.now())  # Get current local time in Moscow
+    current_time = timezone.localtime(timezone.now())  
     
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     
@@ -55,7 +55,7 @@ def show_all_pokemons(request):
         pokemons_on_page.append({
             'pokemon_id': pokemon.id,
             'img_url': image_url,
-            'title_ru': pokemon.title,
+            'title_ru': pokemon.title_ru,
         })
 
     return render(request, 'mainpage.html', context={
@@ -89,12 +89,21 @@ def show_pokemon(request, pokemon_id):
     # Create a dictionary with Pokemon details
     pokemon_details = {
         'pokemon_id': pokemon.id,
-        'title_ru': pokemon.title,
+        'title_ru': pokemon.title_ru,
         'title_en': pokemon.title_en,
         'title_jp': pokemon.title_jp,
         'img_url': request.build_absolute_uri(pokemon.image.url),
         'description': pokemon.description,
+
     }
+
+    if pokemon.previous_evolution:
+        evolution_data = {
+            'title_ru': pokemon.previous_evolution.title_ru,
+            'pokemon_id': pokemon.previous_evolution.id,
+            'img_url': request.build_absolute_uri(pokemon.previous_evolution.image.url),
+        }
+        pokemon_details['previous_evolution'] = evolution_data
 
     return render(request, 'pokemon.html', context={
         'map': folium_map._repr_html_(),
