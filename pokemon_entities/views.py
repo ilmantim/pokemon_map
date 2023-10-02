@@ -47,7 +47,7 @@ def show_all_pokemons(request):
         if pokemon.image:
             image_url = request.build_absolute_uri(pokemon.image.url)
         else:
-            image_url = 'path/to/default/image.png'
+            image_url = DEFAULT_IMAGE_URL
 
         pokemons_on_page.append({
             'pokemon_id': pokemon.id,
@@ -118,7 +118,7 @@ def get_pokemon_entity_image_url(pokemon_entity, request):
     if pokemon_entity.pokemon.image:
         image_url = request.build_absolute_uri(pokemon_entity.pokemon.image.url)
     else:
-        image_url = 'path/to/default/image.png'
+        image_url = DEFAULT_IMAGE_URL
     return image_url
 
 
