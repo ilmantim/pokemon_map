@@ -95,14 +95,13 @@ def show_pokemon(request, pokemon_id):
         }
         pokemon_details['previous_evolution'] = evolution_data
     
-    next_evolutions = Pokemon.objects.filter(previous_evolution=pokemon)
+    next_evolutions = Pokemon.objects.filter(previous_evolution=pokemon).first()
     
     if next_evolutions:
-        next_evolution = next_evolutions.first()
         evolution_data = {
-            'title_ru': next_evolution.title_ru,
-            'pokemon_id': next_evolution.id,
-            'img_url': request.build_absolute_uri(next_evolution.image.url),
+            'title_ru': next_evolutions.title_ru,
+            'pokemon_id': next_evolutions.id,
+            'img_url': request.build_absolute_uri(next_evolutions.image.url),
         }
         pokemon_details['next_evolution'] = evolution_data
 
