@@ -112,9 +112,8 @@ def show_pokemon(request, pokemon_id):
 
 
 def get_pokemon_entity_image_url(pokemon_entity, request):
-    if pokemon_entity.pokemon.image:
-        image_url = request.build_absolute_uri(pokemon_entity.pokemon.image.url)
-    else:
+    image_url = request.build_absolute_uri(pokemon_entity.pokemon.image.url)
+    if not pokemon_entity.pokemon.image:
         image_url = DEFAULT_IMAGE_URL
     return image_url
 
