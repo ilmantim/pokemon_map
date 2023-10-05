@@ -95,7 +95,7 @@ def show_pokemon(request, pokemon_id):
         }
         pokemon_details['previous_evolution'] = evolution_data
     
-    next_evolutions = Pokemon.objects.filter(previous_evolution=pokemon).first()
+    next_evolutions = pokemon.next_evolutions.first()
     
     if next_evolutions:
         evolution_data = {
